@@ -1,4 +1,80 @@
+header
+{
+    width: 90%;
+    height: 150px;
+    background-color: #2A2A2A;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.logo img
+{
+    height: 100px;
+}
+.nav-bar
+{
+    display: flex;
+    gap: 30px;
+}
+.nav-bar a 
+{
+    color: white;
+    text-decoration: none;
+}
+.auth {
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+}
+.auth a {
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+}
+main
+{
+    background-color: #121212;
+    color: white;
+}
 body
 {
-    background-color: #0F0F1A;
+    background-color: #121212;
+}
+footer
+{
+    width: 96%;
+    height: 150px;
+    background-color: #2A2A2A;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+.item-container
+{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 0% auto;
+}
+.item-card
+{
+    width: 14%;
+    background-color: #2A2A2A;
+    color: white;
+    margin: 20px;
+    padding: 2%;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid lightgray; 
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+}
+.item-card img 
+{
+    width: 80%;
+    height: 150px;
 }
