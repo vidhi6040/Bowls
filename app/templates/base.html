@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bowls</title>
+    <link rel="stylesheet" href="/staic/css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/css/img/main_logo.png">
+        </div>
+        <div class="nav-center">
+            <a href="/">Home</a>
+            <a href="/breakfast">Breakfast</a>
+            <a href="/lunch">Lunch</a>
+            <a href="/dinner">Dinner</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </div>
+        <div class="nav-right">
+            <a href="/login">Login</a> |
+            <a href="/register">Register</a>
+        </div>
+    </nav>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html> 
