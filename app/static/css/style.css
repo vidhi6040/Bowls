@@ -78,3 +78,16 @@ footer
     width: 80%;
     height: 150px;
 }
+.auth-form
+{
+    width: 40%;
+    margin: auto;
+    padding: 2%;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 10px;
+}
+.auth-form input
+{
+    
+}

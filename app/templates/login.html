@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="/register" method="post" class="auth-form">
+    <input type="text" name="name" placeholder="Enter Name" required><br><br>
+    <input type="password" name="password" placeholder="Enter Password" required><br><br>
+    <button type="submit">Login</button>
+    <p>Do not have an account? <a>Register</a></p>
+</form>
+
+{% endblock %}
