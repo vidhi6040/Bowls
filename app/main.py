@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 from app.database import item_master, user_master
 
 app = FastAPI()
@@ -31,25 +32,21 @@ def breakfast(request: Request, category: str):
 @app.get("/register")
 def register_page(request: Request):
     return templates.TemplateResponse(
-        "register.html", 
+        "register.html",
         {
-            "request": request
-        }
+            "request": request;
+       }
     )
     
 @app.post("/register")
-def register(name: str = Form(...), email: str = Form(...), password: str = Form(...)):
-        existing_user = users.find_one({"email": email})
-        if existing_user:
-            return {'message': "User already exists"}
-
+def register(request: Request, name: str=Form(...), email: str=Form(...), password: str=Form(...)):
     
+
 @app.get("/login")
 def login_page(request: Request):
     return templates.TemplateResponse(
-        "login.html", 
+        "login.html",
         {
-            "request": request
+            "request": request;
         }
     )
-    
