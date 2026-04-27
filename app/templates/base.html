@@ -20,8 +20,14 @@
             <a href="/contact">Contact</a>
         </nav>
         <div class="auth">
-            <a href="/login">Login</a> |
-            <a href="/register">Register</a>
+            {% if user %}
+                <span>Welcome, {{user.name}} |</span>
+                <a href="/logout">Logout</a>
+                <a href="/cart">&#x1F6D2;</a>
+            {% else %}
+                <a href="/login">Login</a> |
+                <a href="/register">Register</a>
+            {% endif %}
         </div>
     </header>
 

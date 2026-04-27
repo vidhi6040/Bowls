@@ -6,7 +6,8 @@
         <div class="item-card">
             <img src="/static/img/{{ item.image }}">
             <h3>{{ item.name }}</h3>
-            <h5>{{ item.price }}</h5>
+            <h5>$ {{ item.price }}</h5>
+            <button type="submit">Add To Cart</button>
         </div>
     {% endfor %}
 </div>
