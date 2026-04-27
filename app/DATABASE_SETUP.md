@@ -1,9 +1,16 @@
 ## Database setup
 
+## To show the dbs
+show dbs
+
 ## Setting up and using the database
 USE bowls_db
 
+## To show the collections present in database
+show collections
+
 ## Establishing a collection (item_master) to store and manage menu item data
+db.createCollection("cart_master")
 # Breakfast
 db.item_master.insertMany([
     {
@@ -261,3 +268,14 @@ db.item_master.insertMany([
         available: true
     }
 ])
+
+## Establishing a collection (cart_master) to store the cart information
+db.createCollection("cart_master")
+db.cart_master.insertOne({
+    email: "vidhi@gmail.com",
+    item_id: "d1007",
+    name: "Veg Salad",
+    price: 2.1,
+    quantity: 1,
+    total: 2.1,
+})
