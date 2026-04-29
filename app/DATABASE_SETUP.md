@@ -273,7 +273,7 @@ db.item_master.insertMany([
 db.createCollection("cart_master")
 db.cart_master.insertOne({
     email: "vidhi@gmail.com",
-    item_id: "d1007",
+    item_code: "d1007",
     name: "Veg Salad",
     price: 2.1,
     quantity: 1,

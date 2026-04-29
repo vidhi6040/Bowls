@@ -81,33 +81,10 @@ def login(request: Request, email: str=Form(...), password: str=Form(...)):
 def logout(request: Request):
     request.session.clear()
     return RedirectResponse("/", status_code=303)
-
-# Menu
-@app.get("/{category}")
-def menu(request: Request, category: str):
-    items = list(item_master.find({"category": category}))
-    user = request.session.get('user')
-    if user:
-        cart_items = list(cart_master.find({"email": user["email"]}))
-        cart_map = {item["item_code"]: item["quantity"] for item in cart_items}
-
-        for item in items:
-            item["quantity"] = cart_map.get(item["item_code"], 0)
-    else:
-        for item in items:
-            item["quantity"] = 0
-    return templates.TemplateResponse(
-        "menu.html",
-        {
-            "request": request,
-            "items": items, 
-            "user": user
-       }
-    )
     
 # Cart
 @app.post("/add_to_cart")
-def cart(request: Request, item_code: str=Form(...), name: str=Form(...), price: float=Form(...), quantity: int=Form(...)):
+def add_to_cart(request: Request, item_code: str=Form(...), name: str=Form(...), price: float=Form(...), quantity: int=Form(...)):
     user = request.session.get("user")
     if not user:
         return RedirectResponse('/login', status_code=303)
@@ -127,19 +104,19 @@ def cart(request: Request, item_code: str=Form(...), name: str=Form(...), price:
             "quantity": quantity,
             "total": total
         })
-    return RedirectResponse(request.headers.get("referer"), status_code=303)
+    return RedirectResponse("/cart", status_code=303)
 
 @app.post("/update_cart")
 def update_cart(request: Request, item_code: str=Form(...), action: str=Form(...)):
     user = request.session.get("user")
+    if not user:
+        return RedirectResponse("/login", status_code=303)
     existing = cart_master.find_one({
         "email": user["email"],
         "item_code": item_code
     })
-    if not user:
-        return RedirectResponse("/login", status_code=303)
     if not existing:
-        return RedirectResponse("/", status_code=303)
+        return RedirectResponse("/cart", status_code=303)
     if action == "increase":
         cart_master.update_one(
             {"_id": existing["_id"]},
@@ -153,4 +130,46 @@ def update_cart(request: Request, item_code: str=Form(...), action: str=Form(...
             )
         else:
             cart_master.delete_one({"_id": existing["_id"]})
-    return RedirectResponse(request.headers.get("referer"), status_code=303)
+    return RedirectResponse("/cart", status_code=303)
+
+@app.get("/cart")
+def cart(request: Request):
+    user = request.session.get("user")
+    if not user:
+        return RedirectResponse("/login", status_code=303)
+    items = list(cart_master.find({"email": user["email"]}))
+    final_amount = sum(item["total"] for item in items)
+    return templates.TemplateResponse(
+        "cart.html",
+        {
+            "request": request,
+            "items": items,
+            "user": user,
+            "final_amount": final_amount
+        }
+    )
+    
+# Menu
+@app.get("/{category}")
+def menu(request: Request, category: str):
+    items = list(item_master.find({"category": category}))
+    user = request.session.get('user')
+    if user:
+        cart_items = list(cart_master.find({"email": user["email"]}))
+        cart_map = {item["item_code"]: item["quantity"] for item in cart_items}
+
+        for item in items:
+            item["quantity"] = cart_map.get(item["item_code"], 0)
+    else:
+        for item in items:
+            item["quantity"] = 0       
+    menu_title = category.capitalize()
+    return templates.TemplateResponse(
+        "menu.html",
+        {
+            "request": request,
+            "items": items, 
+            "user": user,
+            "menu_title": menu_title
+       }
+    )
