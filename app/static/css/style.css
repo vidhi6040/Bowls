@@ -203,3 +203,66 @@ body
     border-radius: 6px;
     cursor: pointer;
 }
+.profile-container 
+{
+    width: 50%;
+    margin: 30px auto;
+    color: white;
+}
+.profile-card 
+{
+    margin-bottom: 15px;
+}
+.profile-btn
+{
+    width: 100%;
+    padding: 15px;
+    background: #2A2A2A;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.profile-btn:hover 
+{
+    background: #3A3A3A;
+}
+
+.profile-content
+{
+    display: none;
+    background: #1E1E1E;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.profile-content input 
+{
+    width: 90%;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 6px;
+    border: none;
+    background: #121212;
+    color: white;
+}
+
+.profile-content button 
+{
+    margin-top: 10px;
+    padding: 8px 15px;
+    background: #00E676;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout 
+{
+    background: #ff5252;
+}

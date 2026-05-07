@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <button class="profile-button" onclick="toggleCard('user')">
+            &#128100; User Info
+        </button>
+        <div id="user" class="profile-content">
+            <p><b>Name:</b> {{ user.name }}</p>
+            <p><b>Email:</b> {{ user.email }}</p>
+        </div>
+    </div>
+    <div class="profile-card">
+        <button class="profile-button" onclick="toggleCard('user')">
+            &#128274; Change Password
+        </button>
+        <div id="user" class="profile-content">
+            <form action="/change_password" method="post">
+                <input type="password" name="old_password" placeholder="Old Password">
+                <input type="password" name="new_password" placeholder="New Password">
+                <input type="password" name="confirm_password" placeholder="Confirm Password">
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+    <div class="profile-card">
+        <button class="profile-button" onclick="toggleCard('user')">
+            &#128722; Cart Summary
+        </button>
+        <div id="user" class="profile-content">
+            <p>Total Items: {{ total_items }}</p>
+            <p>Total Amount: ${{ total_amount }}</p>
+            <a href="/cart"><button>Go to Cart</button></a>
+        </div>
+    </div>
+    <div class="profile-card">
+        <button class="profile-button" onclick="toggleCard('user')">
+            &#128230; Order History
+        </button>
+        <div id="user" class="profile-content">
+            {% for order in orders %}
+                <p>Order {{ order.id }} - ${{ order.total }}</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="profile-card">
+        <button class="profile-btn logout" onclick="window.location.href='/logout'">
+            🚪 Logout
+        </button>
+    </div>
+</div>
+{% endblock content %}
