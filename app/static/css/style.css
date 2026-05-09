@@ -226,12 +226,10 @@ body
     cursor: pointer;
     transition: 0.3s;
 }
-
 .profile-btn:hover 
 {
     background: #3A3A3A;
 }
-
 .profile-content
 {
     display: none;
@@ -240,7 +238,6 @@ body
     border-radius: 10px;
     margin-top: 5px;
 }
-
 .profile-content input 
 {
     width: 90%;
@@ -251,7 +248,6 @@ body
     background: #121212;
     color: white;
 }
-
 .profile-content button 
 {
     margin-top: 10px;
@@ -261,7 +257,6 @@ body
     border-radius: 6px;
     cursor: pointer;
 }
-
 .logout 
 {
     background: #ff5252;
