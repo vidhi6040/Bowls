@@ -3,19 +3,19 @@
 {% block content %}
 <div class="profile-container">
     <div class="profile-card">
-        <button class="profile-button" onclick="toggleCard('user')">
+        <button class="profile-button" onclick="toggleCard('user-info')">
             &#128100; User Info
         </button>
-        <div id="user" class="profile-content">
+        <div id="user-info" class="profile-content">
             <p><b>Name:</b> {{ user.name }}</p>
             <p><b>Email:</b> {{ user.email }}</p>
         </div>
     </div>
     <div class="profile-card">
-        <button class="profile-button" onclick="toggleCard('user')">
+        <button class="profile-button" onclick="toggleCard('change-password')">
             &#128274; Change Password
         </button>
-        <div id="user" class="profile-content">
+        <div id="change-password" class="profile-content">
             <form action="/change_password" method="post">
                 <input type="password" name="old_password" placeholder="Old Password">
                 <input type="password" name="new_password" placeholder="New Password">
@@ -25,20 +25,20 @@
         </div>
     </div>
     <div class="profile-card">
-        <button class="profile-button" onclick="toggleCard('user')">
+        <button class="profile-button" onclick="toggleCard('cart-summary')">
             &#128722; Cart Summary
         </button>
-        <div id="user" class="profile-content">
+        <div id="cart-summary" class="profile-content">
             <p>Total Items: {{ total_items }}</p>
             <p>Total Amount: ${{ total_amount }}</p>
             <a href="/cart"><button>Go to Cart</button></a>
         </div>
     </div>
     <div class="profile-card">
-        <button class="profile-button" onclick="toggleCard('user')">
+        <button class="profile-button" onclick="toggleCard('order-history')">
             &#128230; Order History
         </button>
-        <div id="user" class="profile-content">
+        <div id="order-history" class="profile-content">
             {% for order in orders %}
                 <p>Order {{ order.id }} - ${{ order.total }}</p>
             {% endfor %}

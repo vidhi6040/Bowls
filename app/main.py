@@ -40,8 +40,8 @@ def register_page(request: Request):
 def register(request: Request, name: str=Form(...), password: str=Form(...), email: str=Form(...)):
     if not name or not email or not password:
         return {"message": "All fields are mandatory."}
-    existing = user_master.find_one({"email": email})
-    if existing:
+    existing_user = user_master.find_one({"email": email})
+    if existing_user:
         return {'message': 'User already exists. Please log in.'}
     user_master.insert_one({
         "name": name,
@@ -66,13 +66,13 @@ def login_page(request: Request):
 def login(request: Request, email: str=Form(...), password: str=Form(...)):
     if not email or not password:
         return {"message": "All fields are mandatory."}
-    existing = user_master.find_one({"email": email, "password": password})
-    if not existing:
+    existing_user = user_master.find_one({"email": email, "password": password})
+    if not existing_user:
         return {'message': 'User not found. Please register first.'}   
     else:
         request.session['user'] = {
-            "name": existing["name"],
-            "email": existing["email"]
+            "name": existing_user["name"],
+            "email": existing_user["email"]
         } 
     return RedirectResponse('/', status_code=303)        
 
@@ -88,11 +88,11 @@ def add_to_cart(request: Request, item_code: str=Form(...), name: str=Form(...),
     user = request.session.get("user")
     if not user:
         return RedirectResponse('/login', status_code=303)
-    existing = cart_master.find_one({"email": user["email"], "item_code": item_code})
+    existing_cart = cart_master.find_one({"email": user["email"], "item_code": item_code})
     total = price * quantity
-    if existing:
+    if existing_cart:
         cart_master.update_one(
-            {"_id": existing["_id"]},
+            {"_id": existing_cart["_id"]},
             {"$inc": {"quantity": 1, "total": price}}
         )
     else:
@@ -111,25 +111,25 @@ def update_cart(request: Request, item_code: str=Form(...), action: str=Form(...
     user = request.session.get("user")
     if not user:
         return RedirectResponse("/login", status_code=303)
-    existing = cart_master.find_one({
+    existing_cart = cart_master.find_one({
         "email": user["email"],
         "item_code": item_code
     })
-    if not existing:
+    if not existing_cart:
         return RedirectResponse("/cart", status_code=303)
     if action == "increase":
         cart_master.update_one(
-            {"_id": existing["_id"]},
-            {"$inc": {"quantity": 1, "total": existing["price"]}}
+            {"_id": existing_cart["_id"]},
+            {"$inc": {"quantity": 1, "total": existing_cart["price"]}}
         )
     elif action == "decrease":
-        if existing["quantity"] > 1:
+        if existing_cart["quantity"] > 1:
             cart_master.update_one(
-                {"_id": existing["_id"]},
-                {"$inc": {"quantity": -1, "total": -existing["price"]}}
+                {"_id": existing_cart["_id"]},
+                {"$inc": {"quantity": -1, "total": -existing_cart["price"]}}
             )
         else:
-            cart_master.delete_one({"_id": existing["_id"]})
+            cart_master.delete_one({"_id": existing_cart["_id"]})
     return RedirectResponse("/cart", status_code=303)
 
 @app.get("/cart")
@@ -137,38 +137,78 @@ def cart(request: Request):
     user = request.session.get("user")
     if not user:
         return RedirectResponse("/login", status_code=303)
-    items = list(cart_master.find({"email": user["email"]}))
-    final_amount = sum(item["total"] for item in items)
+    cart_items = list(cart_master.find({"email": user["email"]}))
+    final_amount = sum(item["total"] for item in cart_items)
     return templates.TemplateResponse(
         "cart.html",
         {
             "request": request,
-            "items": items,
+            "items": cart_items,
             "user": user,
             "final_amount": final_amount
         }
     )
     
+#Profile
+@app.get("/profile")
+def profile(request: Request):
+    user = request.session.get('user')
+    if not user:
+        return RedirectResponse('/login', status_code=303)
+    
+    items = list(cart_master.find({"email": user["email"]}))
+    total_items = sum(item["quantity"] for item in items)
+    total_amount =  sum(item["total"] for item in items)
+    
+    orders = []
+    
+    return templates.TemplateResponse(
+        "profile.html",
+        {
+            "request": request,
+            "user": user,
+            "total_items": total_items,
+            "total_amount": total_amount,
+            "orders": orders
+        }
+    )
+
+@app.post("/change_password")
+def change_password(request: Request, old_password: str=Form(...), new_password: str=Form(...), confirm_password: str=Form(...)):
+    user = request.session.get("user")
+    if not user:
+        return RedirectResponse("/login", status_code=303)
+    existing_user = user_master.find_one({"email": user["email"]})
+    if existing_user["password"] != old_password:
+        return {"message": "Old password is incorrect"}
+    if new_password != confirm_password:
+        return {"message": "Passwords do not match"}
+    user_master.update_one(
+        {'email': existing_user['email']}, 
+        {"$set": {'password': new_password}}
+    )
+    return RedirectResponse('/profile', status_code=303)
+        
 # Menu
 @app.get("/{category}")
 def menu(request: Request, category: str):
-    items = list(item_master.find({"category": category}))
+    menu_items = list(item_master.find({"category": category}))
     user = request.session.get('user')
     if user:
         cart_items = list(cart_master.find({"email": user["email"]}))
         cart_map = {item["item_code"]: item["quantity"] for item in cart_items}
 
-        for item in items:
+        for item in menu_items:
             item["quantity"] = cart_map.get(item["item_code"], 0)
     else:
-        for item in items:
+        for item in menu_items:
             item["quantity"] = 0       
     menu_title = category.capitalize()
     return templates.TemplateResponse(
         "menu.html",
         {
             "request": request,
-            "items": items, 
+            "items": menu_items, 
             "user": user,
             "menu_title": menu_title
        }
