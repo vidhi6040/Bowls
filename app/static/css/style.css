@@ -227,7 +227,11 @@ body
     cursor: pointer;
     transition: 0.3s;
 }
+<<<<<<< HEAD
 .profile-button:hover, .profile-btn:hover
+=======
+.profile-btn:hover 
+>>>>>>> 215ceefad866bb3bab0d0bf2cba4fc5cc6e923d3
 {
     background: #9333EA;
     transform: translateY(-2px);
@@ -262,6 +266,7 @@ body
     border-radius: 8px;
     cursor: pointer;
 }
+<<<<<<< HEAD
 .profile-content button:hover
 {
     background: #9333EA;
@@ -274,3 +279,9 @@ body
 {
     background: #9333EA;
 }
+=======
+.logout 
+{
+    background: #ff5252;
+}
+>>>>>>> 215ceefad866bb3bab0d0bf2cba4fc5cc6e923d3
