@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
-#client = MongoClient("mongodb://localhost:27017")
-client = MongoClient("mongodb://host.docker.internal:27017")
+client = MongoClient("mongodb://localhost:27017")
+#client = MongoClient("mongodb://host.docker.internal:27017")
 
 db = client["bowls_db"]
 item_master = db["item_master"]
