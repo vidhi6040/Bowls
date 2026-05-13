@@ -1,10 +1,6 @@
 from pymongo import MongoClient
 
-<<<<<<< HEAD
 #client = MongoClient("mongodb://mongodb:27017")
-=======
-#client = MongoClient("mongodb://localhost:27017")
->>>>>>> 0e843842875e32be52dc497eb06e758b1b0595ab
 #client = MongoClient("mongodb://host.docker.internal:27017")
 client = MongoClient("mongodb://mongodb:27017")
 
