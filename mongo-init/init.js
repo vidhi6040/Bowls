@@ -1,19 +1,10 @@
-## Database setup
+db = db.getSiblingDB("bowls_db");
 
-## To show the dbs
-show dbs
+/* item_master */
+db.createCollection("item_master");
 
-## Setting up and using the database
-use bowls_db
-
-## To show the collections present in database
-show collections
-
-## Establishing a collection (item_master) to store and manage menu item data
-db.createCollection("item_master")
-# Breakfast
 db.item_master.insertMany([
-    {
+  {
         item_code: "b1001",
         name: "Potato Finger",
         category: "breakfast",
@@ -116,10 +107,7 @@ db.item_master.insertMany([
         price: 2.0,
         image: "breakfast/b1013.png",
         available: true
-    }
-])
-# Lunch
-db.item_master.insertMany([
+    },
     {
         item_code: "l1001",
         name: "Pork Capsicum",
@@ -207,10 +195,7 @@ db.item_master.insertMany([
         price: 3.6,
         image: "lunch/l1011.png",
         available: true
-    }
-])
-# Dinner
-db.item_master.insertMany([
+    },
     {
         item_code: "d1001",
         name: "Meat Cheese",
@@ -267,15 +252,10 @@ db.item_master.insertMany([
         image: "dinner/d1007.png",
         available: true
     }
-])
+]);
 
-## Establishing a collection (cart_master) to store the cart information
-db.createCollection("cart_master")
-db.cart_master.insertOne({
-    email: "vidhi@gmail.com",
-    item_code: "d1007",
-    name: "Veg Salad",
-    price: 2.1,
-    quantity: 1,
-    total: 2.1,
-})
+/* cart_master */
+db.createCollection("cart_master");
+
+/* user_master */
+db.createCollection("user_master");
