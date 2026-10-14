@@ -1,4 +1,18 @@
 venv/
 __pycache__/
+*.py[cod]
 .env
-*.pyc
+.env.*
+!.env.example
+.pytest_cache/
+
+jenkins-kubeconfig.yaml
+
+# Terraform local files
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+*.tfplan
+crash.log
+crash.*.log

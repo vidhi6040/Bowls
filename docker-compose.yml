@@ -1,22 +1,24 @@
-version: '3'
 services:
-  app:
-    build: .
-    ports:
-      - "8000:8000"
-    depends_on:
-      - mongodb
-
   mongodb:
-    image: mongo
+    image: mongo:7
+    container_name: bowls-mongodb
+    restart: unless-stopped
     ports:
       - "27017:27017"
     volumes:
-      - ./mongo-init:/docker-entrypoint-initdb.d
+      - mongodb_data:/data/db
+      - ./mongo-init/init.js:/docker-entrypoint-initdb.d/init.js:ro
 
-  jenkins:
-    image: jenkins/jenkins:lts
-    container_name: jenkins
+  web:
+    build: .
+    container_name: bowls-web
+    restart: unless-stopped
     ports:
-      - "8080:8080"
-      - "50000:50000"
+      - "8000:8000"
+    environment:
+      MONGO_URL: mongodb://mongodb:27017
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data:
