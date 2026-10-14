@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 style="text-align:center;">Your Cart</h2>
+<div class="cart-container">
+    <table class="cart-table">
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>$ {{ item.price }}</td>
+            <td>
+                <div class="quantity">
+                    <form action="/update_cart" method="post">
+                        <input type="hidden" name="item_code" value="{{ item.item_code }}">
+                        <input type="hidden" name="action" value="decrease">
+                        <button type="submit">-</button>
+                    </form>
+                    <span>{{ item.quantity }}</span>
+                    <form action="/update_cart" method="post">
+                        <input type="hidden" name="item_code" value="{{ item.item_code }}">
+                        <input type="hidden" name="action" value="increase">
+                        <button type="submit">+</button>
+                    </form>
+                </div>
+            </td>
+            <td>$ {{ item.total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="cart-footer">
+        <h3>Final Amount: $ {{ final_amount }}</h3>
+        <a href="/checkout">
+            <button class="checkout">Proceed To Checkout</button>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

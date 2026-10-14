@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bowls - Menu Management</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body class="admin-page">
+<header class="admin-header">
+    <h1>Bowls Admin Panel</h1>
+    <p>Welcome, {{ admin.username }}</p>
+
+    <nav>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/items">Menu Items</a>
+        <a href="/admin/logout">Logout</a>
+    </nav>
+</header>
+
+<main class="admin-container">
+    <h2>Menu Management</h2>
+
+    <section class="panel">
+        <h3>Add New Item</h3>
+
+        <form action="/admin/items/add" method="post">
+            <div class="form-grid">
+                <input name="item_code" placeholder="Item code (e.g. b1014)" required>
+                <input name="name" placeholder="Food name" required>
+
+                <select name="category" required>
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                </select>
+
+                <input name="price" type="number" min="0" step="0.01"
+                       placeholder="Price" required>
+
+                <input name="image" placeholder="Image path (optional)">
+
+                <select name="available">
+                    <option value="yes">Available</option>
+                    <option value="no">Unavailable</option>
+                </select>
+            </div>
+
+            <button type="submit">Add Item</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h3>Search Menu</h3>
+
+        <form action="/admin/items" method="get" class="search">
+            <input name="search" value="{{ search }}"
+                   placeholder="Search name, code or category">
+            <button type="submit">Search</button>
+        </form>
+
+        <p>Total matching items: {{ items|length }}</p>
+
+        <!-- Keep forms outside the table -->
+        {% for item in items %}
+            <form id="update-{{ loop.index }}"
+                  action="/admin/items/update" method="post"></form>
+
+            <form id="delete-{{ loop.index }}"
+                  action="/admin/items/delete" method="post"
+                  onsubmit="return confirm('Delete this item?')"></form>
+        {% endfor %}
+
+        <div class="table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Image Path</th>
+                        <th>Availability</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>
+                            {{ item.item_code }}
+                            <input type="hidden" form="update-{{ loop.index }}"
+                                   name="item_code" value="{{ item.item_code }}">
+                            <input type="hidden" form="delete-{{ loop.index }}"
+                                   name="item_code" value="{{ item.item_code }}">
+                        </td>
+
+                        <td>
+                            <input form="update-{{ loop.index }}"
+                                   name="name" value="{{ item.name }}" required>
+                        </td>
+
+                        <td>
+                            <select form="update-{{ loop.index }}" name="category">
+                                <option value="breakfast"
+                                    {% if item.category == "breakfast" %}selected{% endif %}>
+                                    Breakfast
+                                </option>
+                                <option value="lunch"
+                                    {% if item.category == "lunch" %}selected{% endif %}>
+                                    Lunch
+                                </option>
+                                <option value="dinner"
+                                    {% if item.category == "dinner" %}selected{% endif %}>
+                                    Dinner
+                                </option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <input form="update-{{ loop.index }}"
+                                   name="price" type="number" min="0" step="0.01"
+                                   value="{{ item.price }}" required>
+                        </td>
+
+                        <td>
+                            <input form="update-{{ loop.index }}"
+                                   name="image" value="{{ item.image }}">
+                        </td>
+
+                        <td>
+                            <select form="update-{{ loop.index }}" name="available">
+                                <option value="yes"
+                                    {% if item.available %}selected{% endif %}>
+                                    Available
+                                </option>
+                                <option value="no"
+                                    {% if not item.available %}selected{% endif %}>
+                                    Unavailable
+                                </option>
+                            </select>
+                        </td>
+
+                        <td class="action-cell">
+                            <button form="update-{{ loop.index }}" type="submit">
+                                Save
+                            </button>
+
+                            <button form="delete-{{ loop.index }}"
+                                    class="delete" type="submit">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">No menu items found.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

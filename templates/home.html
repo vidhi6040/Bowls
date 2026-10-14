@@ -1,0 +1,65 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="home-hero">
+    <div class="hero-text">
+        <p class="hero-label">FRESH • TASTY • DELICIOUS</p>
+        <h1>Welcome to <span>Bowls!</span></h1>
+        <p>
+            Good food, good mood! Discover delicious meals
+            for every craving, from a fresh breakfast to
+            a satisfying dinner.
+        </p>
+        <a href="/breakfast" class="home-btn">Explore Our Menu →</a>
+    </div>
+
+    <div class="hero-image">
+        <img
+            src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=80"
+            alt="Fresh and colourful food bowl">
+    </div>
+</section>
+
+<section class="home-categories">
+    <h2>Explore Our Menu</h2>
+    <p>Something delicious for every part of your day.</p>
+
+    <div class="category-cards">
+        <a href="/breakfast" class="category-card">
+            <img
+                src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=600&q=80"
+                alt="Breakfast meal">
+            <div class="category-card-content">
+                <h3>Breakfast</h3>
+                <p>Start your day with something tasty.</p>
+                <span>Explore →</span>
+            </div>
+        </a>
+
+        <a href="/lunch" class="category-card">
+            <img
+                src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
+                alt="Lunch meal">
+            <div class="category-card-content">
+                <h3>Lunch</h3>
+                <p>Enjoy a fresh and satisfying meal.</p>
+                <span>Explore →</span>
+            </div>
+        </a>
+
+        <a href="/dinner" class="category-card">
+            <img
+                src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80"
+                alt="Dinner meal">
+            <div class="category-card-content">
+                <h3>Dinner</h3>
+                <p>Make your evenings extra tasty.</p>
+                <span>Explore →</span>
+            </div>
+        </a>
+    </div>
+</section>
+
+{% endblock %}
