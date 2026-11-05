@@ -1,0 +1,11 @@
+
+resource "aws_instance" "bowls" {
+  ami           = "ami-0324b92f52e4d7a4a"
+  instance_type = "t3.micro"
+
+  tags = {
+    Name      = "bowls"
+    Project   = "Bowls"
+    ManagedBy = "Terraform"
+  }
+}
